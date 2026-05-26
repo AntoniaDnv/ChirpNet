@@ -1,0 +1,15 @@
+<Solution>
+  <Project Path="ChirpNet.Data/ChirpNet.Data.csproj" Id="54c6b4d3-3bb1-4bb5-bc75-05bcd4d7eb58" />
+  <Project Path="ChirpNet.Services/ChirpNet.Services.csproj" Id="93d3259c-a17d-4fac-880b-dace953c9c16">
+    <BuildDependency Project="ChirpNet.Data/ChirpNet.Data.csproj" />
+  </Project>
+  <Project Path="ChirpNet.Tests/ChirpNet.Tests.csproj" Id="d9cac4c4-6451-4ebb-867b-2b1856883fde">
+    <BuildDependency Project="ChirpNet.Data/ChirpNet.Data.csproj" />
+    <BuildDependency Project="ChirpNet.Services/ChirpNet.Services.csproj" />
+    <BuildDependency Project="ChirpNet/ChirpNet.Web.csproj" />
+  </Project>
+  <Project Path="ChirpNet/ChirpNet.Web.csproj">
+    <BuildDependency Project="ChirpNet.Data/ChirpNet.Data.csproj" />
+    <BuildDependency Project="ChirpNet.Services/ChirpNet.Services.csproj" />
+  </Project>
+</Solution>
