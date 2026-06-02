@@ -1,13 +1,14 @@
 using ChirpNet.Data.Data;
 using ChirpNet.Data.Data.Models;
+using ChirpNet.Data.Data.Seed;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChirpNet
 {
-    public class Program
+    public  class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
             string connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
@@ -35,6 +36,16 @@ namespace ChirpNet
             builder.Services.AddRazorPages();
 
             var app = builder.Build();
+            using (IServiceScope scope = app.Services.CreateScope()) 
+            {
+               IServiceProvider serviceProvider = scope.ServiceProvider;
+                ApplicationDbContext dbContext = serviceProvider.GetRequiredService<ApplicationDbContext>();    
+                UserManager<ApplicationUser> userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+                RoleManager<IdentityRole> roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                await dbContext.Database.MigrateAsync();
+
+                await DatabaseSeeder.SeedAsync(dbContext, userManager, roleManager);
+            }
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
