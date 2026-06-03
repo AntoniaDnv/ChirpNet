@@ -1,0 +1,36 @@
+﻿@model ChirpNet.Services.Data.Models.Posts.PostCreateInputModel
+
+@{
+    ViewData["Title"] = "Create Post";
+}
+
+<div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+        <h1 class="h3 mb-4">Create Post</h1>
+      
+        @* automatically generates an anti-forgery token because it uses ASP.NET Core form Tag Helpers *@
+        <form asp-controller="Posts" asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="Content" class="form-label"></label>
+                <textarea asp-for="Content" class="form-control" rows="4" maxlength="280"
+                          placeholder="What's happening?"></textarea>
+                <span asp-validation-for="Content" class="text-danger"></span>
+                <div class="form-text">Maximum 280 characters.</div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Post
+            </button>
+
+            <a asp-controller="Posts" asp-action="Feed" class="btn btn-outline-secondary">
+                Cancel
+            </a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

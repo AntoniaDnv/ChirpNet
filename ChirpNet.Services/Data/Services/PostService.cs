@@ -1,4 +1,5 @@
 ﻿using ChirpNet.Data.Data;
+using ChirpNet.Data.Data.Models;
 using ChirpNet.Services.Data.Interfaces;
 using ChirpNet.Services.Data.Models.Posts;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,19 @@ namespace ChirpNet.Services.Data.Services
             this.dbContext = dbContext;
             
         }
+
+        public async Task CreateAsync(PostCreateInputModel inputModel, string authorId)
+        {
+            Post post = new Post
+            {
+                Content = inputModel.Content,
+                AuthorId = authorId,
+                CreatedOn = DateTime.UtcNow
+            };
+            await dbContext.Posts.AddAsync(post);
+            await dbContext.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<PostFeedServiceModel>> GetPublicFeedAsync()
         {
             return await dbContext

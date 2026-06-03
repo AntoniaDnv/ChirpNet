@@ -8,5 +8,6 @@ namespace ChirpNet.Services.Data.Interfaces
     public interface IPostService
     {
         Task<IEnumerable<PostFeedServiceModel>> GetPublicFeedAsync();
+        Task CreateAsync(PostCreateInputModel inputModel, string authorId);
     }
 }
