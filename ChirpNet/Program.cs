@@ -3,7 +3,8 @@ using ChirpNet.Data.Data.Models;
 using ChirpNet.Data.Data.Seed;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-
+using ChirpNet.Services.Data.Interfaces;
+using ChirpNet.Services.Data.Services;
 namespace ChirpNet
 {
     public  class Program
@@ -34,6 +35,8 @@ namespace ChirpNet
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
+            builder.Services.AddScoped<IPostService, PostService>();
+
 
             var app = builder.Build();
             using (IServiceScope scope = app.Services.CreateScope()) 

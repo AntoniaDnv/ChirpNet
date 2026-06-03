@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ChirpNet.Data\ChirpNet.Data.csproj" />
+    <ProjectReference Include="..\ChirpNet.Services\ChirpNet.Services.csproj" />
   </ItemGroup>
 
 </Project>
