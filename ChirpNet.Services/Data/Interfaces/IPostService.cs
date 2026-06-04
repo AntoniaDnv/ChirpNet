@@ -9,5 +9,8 @@ namespace ChirpNet.Services.Data.Interfaces
     {
         Task<IEnumerable<PostFeedServiceModel>> GetPublicFeedAsync();
         Task CreateAsync(PostCreateInputModel inputModel, string authorId);
+
+        Task<PostDetailsServiceModel?> GetDetailsAsync(int postId);
+        Task<bool> AddCommentAsync(PostCommentInputModel inputModel, string authorId);
     }
 }

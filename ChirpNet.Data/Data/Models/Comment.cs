@@ -12,7 +12,7 @@ namespace ChirpNet.Data.Data.Models
         [MaxLength(300)]
         public string Content { get; set; } = null!;
         public DateTime CreatedOn { get; set; }
-        public bool isIsDeleted { get; set; }   
+        public bool IsDeleted { get; set; }   
         public int PostId { get; set; }
         public Post Post { get; set; } = null!;
         public string AuthorId { get; set; } = null!;

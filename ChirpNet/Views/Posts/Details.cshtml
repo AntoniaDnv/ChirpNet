@@ -1,0 +1,111 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using ChirpNet.Data.Data.Models
+@model ChirpNet.Services.Data.Models.Posts.PostDetailsServiceModel
+
+@inject SignInManager<ApplicationUser> SignInManager
+
+@{
+    ViewData["Title"] = "Post Details";
+}
+
+<div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-7">
+        <a asp-controller="Posts" asp-action="Feed" class="btn btn-outline-secondary btn-sm mb-3">
+            Back to Feed
+        </a>
+
+        <article class="card mb-4 shadow-sm">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <strong>@Model.AuthorDisplayName</strong>
+                    <small class="text-muted">
+                        @Model.CreatedOn.ToLocalTime().ToString("dd MMM yyyy HH:mm")
+                    </small>
+                </div>
+
+                <p class="mt-3 mb-3">
+                    @Model.Content
+                </p>
+
+                <div class="text-muted small">
+                    ❤ @Model.LikesCount likes
+                </div>
+            </div>
+        </article>
+
+        <section class="mb-4">
+            <h2 class="h5 mb-3">Comments</h2>
+
+            @if (!Model.Comments.Any())
+            {
+                <div class="alert alert-info">
+                    No comments yet. Be the first to comment.
+                </div>
+            }
+            else
+            {
+                foreach (var comment in Model.Comments)
+                {
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <strong>@comment.AuthorDisplayName</strong>
+                                <small class="text-muted">
+                                    @comment.CreatedOn.ToLocalTime().ToString("dd MMM yyyy HH:mm")
+                                </small>
+                            </div>
+
+                            <p class="mb-0 mt-2">
+                                @comment.Content
+                            </p>
+                        </div>
+                    </div>
+                }
+            }
+        </section>
+
+        <section class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="h5 mb-3">Add a comment</h2>
+
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <form asp-controller="Posts" asp-action="AddComment" method="post">
+                        @Html.AntiForgeryToken()
+
+                        <input type="hidden" name="PostId" value="@Model.Id" />
+
+                        <div class="mb-3">
+                            <label for="Content" class="form-label">Content</label>
+
+                            <textarea name="Content"
+                                      id="Content"
+                                      class="form-control"
+                                      rows="3"
+                                      maxlength="300"
+                                      required
+                                      placeholder="Write a comment..."></textarea>
+
+                            <div class="form-text">Maximum 300 characters.</div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">
+                            Comment
+                        </button>
+                    </form>
+                }
+                else
+                {
+                    <p class="mb-0">
+                        <a asp-area="Identity" asp-page="/Account/Login">Log in</a>
+                        to add a comment.
+                    </p>
+                }
+            </div>
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
