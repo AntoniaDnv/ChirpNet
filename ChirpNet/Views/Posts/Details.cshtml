@@ -8,6 +8,9 @@
 @{
     ViewData["Title"] = "Post Details";
 }
+<form id="antiForgeryForm">
+    @Html.AntiForgeryToken()
+</form>
 
 <div class="row justify-content-center">
     <div class="col-12 col-md-8 col-lg-7">
@@ -28,9 +31,18 @@
                     @Model.Content
                 </p>
 
-                <div class="text-muted small">
-                    ❤ @Model.LikesCount likes
-                </div>@if (User.Identity?.IsAuthenticated == true &&
+                <div class="d-flex align-items-center gap-2 text-muted small">
+                    <button type="button"
+                            class="btn btn-sm btn-outline-danger"
+                            id="likeButton"
+                            data-post-id="@Model.Id">
+                        ❤ Like
+                    </button>
+
+                    <span id="likesCount">@Model.LikesCount</span>
+                    <span>likes</span>
+                </div>
+                @if (User.Identity?.IsAuthenticated == true &&
                 User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.AuthorId)
 {
                     <div class="mt-3 d-flex gap-2">
@@ -130,4 +142,39 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        const likeButton = document.getElementById('likeButton');
+
+        if (likeButton) {
+            likeButton.addEventListener('click', async function () {
+                const postId = this.dataset.postId;
+
+                const tokenInput = document.querySelector('#antiForgeryForm input[name="__RequestVerificationToken"]');
+                const token = tokenInput ? tokenInput.value : '';
+
+                const response = await fetch(`/api/likes/toggle/${postId}`, {
+                    method: 'POST',
+                    headers: {
+                        'RequestVerificationToken': token
+                    }
+                });
+
+                if (response.status === 401) {
+                    window.location.href = '/Identity/Account/Login';
+                    return;
+                }
+
+                if (!response.ok) {
+                    alert('Something went wrong while liking the post.');
+                    return;
+                }
+
+                const data = await response.json();
+
+                document.getElementById('likesCount').textContent = data.likesCount;
+                likeButton.textContent = data.isLiked ? '❤ Unlike' : '❤ Like';
+            });
+        }
+    </script>
 }

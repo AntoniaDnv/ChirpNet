@@ -36,6 +36,7 @@ namespace ChirpNet
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
             builder.Services.AddScoped<IPostService, PostService>();
+            builder.Services.AddScoped<ILikeService, LikeService>();
 
 
             var app = builder.Build();
