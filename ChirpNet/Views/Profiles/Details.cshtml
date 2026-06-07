@@ -1,0 +1,93 @@
+﻿@model ChirpNet.Services.Data.Models.Profiles.ProfileDetailsServiceModel
+
+@{
+    ViewData["Title"] = $"{Model.DisplayName}'s Profile";
+}
+
+<div class="row justify-content-center">
+    <div class="col-12 col-md-9 col-lg-8">
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <div class="d-flex align-items-center gap-3">
+                    @if (!string.IsNullOrWhiteSpace(Model.ProfileImageUrl))
+                    {
+                        <img src="@Model.ProfileImageUrl"
+                             alt="@Model.DisplayName profile image"
+                             class="rounded-circle"
+                             width="80"
+                             height="80" />
+                    }
+                    else
+                    {
+                        <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center"
+                             style="width:80px;height:80px;font-size:2rem;">
+                            @Model.DisplayName[0]
+                        </div>
+                    }
+
+                    <div>
+                        <h1 class="h3 mb-1">@Model.DisplayName</h1>
+                        <p class="text-muted mb-0">
+                            Joined @Model.CreatedOn.ToLocalTime().ToString("dd MMM yyyy")
+                        </p>
+                    </div>
+                </div>
+
+                @if (!string.IsNullOrWhiteSpace(Model.Bio))
+                {
+                    <p class="mt-3 mb-0">@Model.Bio</p>
+                }
+
+                <div class="d-flex gap-4 mt-4">
+                    <div>
+                        <strong>@Model.PostsCount</strong>
+                        <span class="text-muted">posts</span>
+                    </div>
+                    <div>
+                        <strong>@Model.FollowersCount</strong>
+                        <span class="text-muted">followers</span>
+                    </div>
+                    <div>
+                        <strong>@Model.FollowingCount</strong>
+                        <span class="text-muted">following</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="h5 mb-3">Recent Posts</h2>
+
+        @if (!Model.RecentPosts.Any())
+        {
+            <div class="alert alert-info">
+                This user has not posted anything yet.
+            </div>
+        }
+        else
+        {
+            foreach (var post in Model.RecentPosts)
+            {
+                <article class="card mb-3 shadow-sm">
+                    <div class="card-body">
+                        <p>@post.Content</p>
+
+                        <div class="d-flex gap-3 text-muted small">
+                            <span>@post.CreatedOn.ToLocalTime().ToString("dd MMM yyyy HH:mm")</span>
+                            <span>❤ @post.LikesCount likes</span>
+                            <span>💬 @post.CommentsCount comments</span>
+                        </div>
+
+                        <div class="mt-3">
+                            <a asp-controller="Posts"
+                               asp-action="Details"
+                               asp-route-id="@post.Id"
+                               class="btn btn-sm btn-outline-secondary">
+                                Details
+                            </a>
+                        </div>
+                    </div>
+                </article>
+            }
+        }
+    </div>
+</div>

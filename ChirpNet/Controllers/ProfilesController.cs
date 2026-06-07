@@ -1,0 +1,51 @@
+﻿using ChirpNet.Services.Data.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+
+namespace ChirpNet.Web.Controllers
+{
+    public class ProfilesController : Controller
+    {
+        private readonly IProfileService profileService;
+        public ProfilesController(IProfileService profileService)
+        {
+            this.profileService = profileService;
+
+        }
+        [HttpGet]
+        public async Task<IActionResult> Details(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return BadRequest();
+            }
+
+            var profile = await this.profileService.GetProfileDetailsAsync(id);
+
+            if (profile == null)
+            {
+                return NotFound();
+            }
+
+            return View(profile);
+        }
+
+        [HttpGet]
+        [Authorize]
+
+        public async Task<IActionResult> MyPosts() 
+        {
+            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null) 
+            {
+
+                return Unauthorized();
+            }
+
+            var posts = await this.profileService.GetMyPostsAsync(userId);
+            return View(posts);
+        
+        }
+    }
+}

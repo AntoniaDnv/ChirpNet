@@ -21,7 +21,12 @@
         <article class="card mb-4 shadow-sm">
             <div class="card-body">
                 <div class="d-flex justify-content-between">
-                    <strong>@Model.AuthorDisplayName</strong>
+                    <a asp-controller="Profiles"
+                       asp-action="Details"
+                       asp-route-id="@Model.AuthorId"
+                       class="fw-bold text-decoration-none">
+                        @Model.AuthorDisplayName
+                    </a>
                     <small class="text-muted">
                         @Model.CreatedOn.ToLocalTime().ToString("dd MMM yyyy HH:mm")
                     </small>
