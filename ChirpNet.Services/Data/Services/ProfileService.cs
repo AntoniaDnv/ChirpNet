@@ -32,7 +32,7 @@ namespace ChirpNet.Services.Data.Services
             .ToListAsync();
         }
 
-        public async Task<ProfileDetailsServiceModel?> GetProfileDetailsAsync(string userId)
+        public async Task<ProfileDetailsServiceModel?> GetProfileDetailsAsync(string userId, string? currentUserId)
         {
             return await this.dbContext.Users
                  .AsNoTracking()
@@ -47,6 +47,9 @@ namespace ChirpNet.Services.Data.Services
                      PostsCount = u.Posts.Count(p => !p.IsDeleted),
                      FollowersCount = u.Followers.Count,
                      FollowingCount = u.Following.Count,
+                     IsCurrentUserProfile = currentUserId != null && u.Id == currentUserId,
+                     IsFollowedByCurrentUser = currentUserId != null &&
+                        u.Followers.Any(f => f.FollowerId == currentUserId),
                      RecentPosts = u.Posts
                      .Where(p => !p.IsDeleted)
                      .OrderByDescending(p => p.CreatedOn)

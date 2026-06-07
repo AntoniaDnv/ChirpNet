@@ -7,7 +7,7 @@ namespace ChirpNet.Services.Data.Interfaces
 {
     public interface IProfileService
     {
-        Task<ProfileDetailsServiceModel?> GetProfileDetailsAsync(string userId);
+        Task<ProfileDetailsServiceModel?> GetProfileDetailsAsync(string userId, string? currentUserId);
         Task<IEnumerable<ProfilePostServiceModel>> GetMyPostsAsync(string userId);
     }
 }

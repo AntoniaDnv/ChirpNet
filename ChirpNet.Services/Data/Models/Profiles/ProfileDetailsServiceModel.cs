@@ -19,6 +19,9 @@ namespace ChirpNet.Services.Data.Models.Profiles
         public int FollowersCount { get; set; }
 
         public int FollowingCount { get; set; }
+        public bool IsCurrentUserProfile { get; set; }
+
+        public bool IsFollowedByCurrentUser { get; set; }
         public IEnumerable<ProfilePostServiceModel> RecentPosts { get; set; }
         = new List<ProfilePostServiceModel>();
     }
