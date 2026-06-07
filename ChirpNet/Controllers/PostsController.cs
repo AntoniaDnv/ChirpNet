@@ -97,5 +97,78 @@ namespace ChirpNet.Web.Controllers
 
             return RedirectToAction(nameof(Details), new { id = inputModel.PostId });
         }
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Edit(int id)
+        {
+            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userId == null) 
+            {
+                return Unauthorized();
+
+            }
+
+            PostEditInputModel? inputModel = await this.postService.GetForEditAsync(id, userId);
+
+            if(inputModel == null)
+            {
+                return Forbid();
+            }
+
+            return View(inputModel);
+
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(PostEditInputModel inputModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(inputModel);
+            }
+
+            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            bool edited = await this.postService.EditAsync(inputModel, userId);
+
+            if (!edited) 
+            {
+                return Forbid();
+            }
+            TempData["SuccessMessage"] = "Your post was edited successfully.";
+
+            return RedirectToAction(nameof(Details), new { id = inputModel.Id });
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            bool deleted = await this.postService.DeleteAsync(id, userId);
+
+            if (!deleted)
+            {
+                return Forbid();
+            }
+
+            TempData["SuccessMessage"] = "Your post was deleted successfully.";
+
+            return RedirectToAction(nameof(Feed));
+        }
     }
 }

@@ -12,5 +12,9 @@ namespace ChirpNet.Services.Data.Interfaces
 
         Task<PostDetailsServiceModel?> GetDetailsAsync(int postId);
         Task<bool> AddCommentAsync(PostCommentInputModel inputModel, string authorId);
+
+        Task<PostEditInputModel?> GetForEditAsync(int postId, string userId); 
+        Task<bool> EditAsync(PostEditInputModel inputModel, string userId);
+        Task<bool> DeleteAsync(int postId, string userId);
     }
 }

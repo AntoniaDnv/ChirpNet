@@ -56,6 +56,42 @@ namespace ChirpNet.Services.Data.Services
             await dbContext.SaveChangesAsync();
         }
 
+        public async Task<bool> DeleteAsync(int postId, string userId)
+        {
+            Post? post = await this.dbContext
+                .Posts
+                .FirstOrDefaultAsync(p => p.Id == postId &&
+                                          p.AuthorId == userId &&
+                                          !p.IsDeleted);
+
+            if (post == null)
+            {
+                return false;
+            }
+
+            post.IsDeleted = true;
+            post.ModifiedOn = DateTime.UtcNow;
+
+            await this.dbContext.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> EditAsync(PostEditInputModel inputModel, string userId)
+        {
+            Post? post = await this.dbContext
+                .Posts
+                .FirstOrDefaultAsync(p=> p.Id== inputModel.Id && p.AuthorId == userId && !p.IsDeleted);
+            if(post == null)
+            {
+                return false;
+            }
+            post.Content = inputModel.Content;
+            post.ModifiedOn = DateTime.UtcNow;
+            await this.dbContext.SaveChangesAsync();
+            return true;
+        }
+
         public async Task<PostDetailsServiceModel?> GetDetailsAsync(int postId)
         {
             return await this.dbContext
@@ -87,6 +123,22 @@ namespace ChirpNet.Services.Data.Services
                      }
 
                  }).FirstOrDefaultAsync();
+        }
+
+        public async Task<PostEditInputModel?> GetForEditAsync(int postId, string userId)
+        {
+            return await this.dbContext.Posts
+                .AsNoTracking()
+                .Where(p=> 
+                p.Id == postId &&
+                p.AuthorId == userId
+                && !p.IsDeleted)
+                .Select(p=> new PostEditInputModel
+                {
+                    Id = p.Id,
+                    Content = p.Content
+                }).FirstOrDefaultAsync();
+
         }
 
         public async Task<IEnumerable<PostFeedServiceModel>> GetPublicFeedAsync()
