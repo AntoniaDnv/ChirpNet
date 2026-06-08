@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using ChirpNet.Data.Common
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -44,6 +45,17 @@
                                 Search
                             </a>
                         </li>
+                        @if (User.IsInRole(ApplicationConstants.AdministratorRoleName))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark"
+                                   asp-area="Admin"
+                                   asp-controller="Dashboard"
+                                   asp-action="Index">
+                                    Admin
+                                </a>
+                            </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

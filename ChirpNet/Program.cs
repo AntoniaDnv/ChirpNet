@@ -40,6 +40,7 @@ namespace ChirpNet
             builder.Services.AddScoped<IProfileService, ProfileService>();
             builder.Services.AddScoped<IFollowService, FollowService>();
             builder.Services.AddScoped<ISearchService, SearchService>();
+            builder.Services.AddScoped<IAdminService, AdminService>();
 
 
             var app = builder.Build();

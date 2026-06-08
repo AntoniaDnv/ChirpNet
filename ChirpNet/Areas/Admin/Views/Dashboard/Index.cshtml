@@ -1,0 +1,61 @@
+﻿@model ChirpNet.Services.Data.Admin.AdminDashboardServiceModel
+
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<h1 class="h3 mb-4">Admin Dashboard</h1>
+
+<div class="row g-3 mb-4">
+    <div class="col-12 col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="h5">Users</h2>
+                <p class="display-6 mb-0">@Model.UsersCount</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="h5">Posts</h2>
+                <p class="display-6 mb-0">@Model.PostsCount</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="h5">Comments</h2>
+                <p class="display-6 mb-0">@Model.CommentsCount</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="h5">Likes</h2>
+                <p class="display-6 mb-0">@Model.LikesCount</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="h5">Follows</h2>
+                <p class="display-6 mb-0">@Model.FollowsCount</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a asp-area="Admin"
+   asp-controller="Posts"
+   asp-action="Index"
+   class="btn btn-primary">
+    Manage Posts
+</a>
