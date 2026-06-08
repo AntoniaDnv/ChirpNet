@@ -1,8 +1,72 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="hero-section mb-5">
+    <div class="row align-items-center g-4">
+        <div class="col-12 col-lg-7">
+            <h1 class="hero-title">Welcome to ChirpNet</h1>
+            <p class="hero-text mb-4">
+                ChirpNet is a simple social platform built with ASP.NET Core MVC.
+                Users can create short posts, comment, like content, follow profiles,
+                and interact through a clean public feed.
+            </p>
+
+            <div class="d-flex flex-wrap gap-2">
+                <a asp-controller="Posts" asp-action="Feed" class="btn btn-primary btn-lg">
+                    Explore Feed
+                </a>
+
+                @if (User.Identity?.IsAuthenticated != true)
+                {
+                    <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-outline-primary btn-lg">
+                        Join ChirpNet
+                    </a>
+                }
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-5">
+            <div class="section-card">
+                <h2 class="h4 mb-3">Project Features</h2>
+                <ul class="mb-0">
+                    <li>Create, edit, and delete posts</li>
+                    <li>Comment on posts</li>
+                    <li>Like and unlike with AJAX</li>
+                    <li>Follow and unfollow users</li>
+                    <li>Search posts and users</li>
+                    <li>Admin dashboard and moderation</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-12 col-md-4">
+        <div class="stat-card h-100">
+            <h3 class="h5">Short Posts</h3>
+            <p class="text-muted mb-0">
+                Share short messages quickly in a public feed.
+            </p>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-4">
+        <div class="stat-card h-100">
+            <h3 class="h5">Community Interaction</h3>
+            <p class="text-muted mb-0">
+                Engage through comments, likes, and follows.
+            </p>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-4">
+        <div class="stat-card h-100">
+            <h3 class="h5">Admin Tools</h3>
+            <p class="text-muted mb-0">
+                Administrators can manage content through protected pages.
+            </p>
+        </div>
+    </div>
 </div>
