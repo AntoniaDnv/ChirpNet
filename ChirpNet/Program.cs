@@ -39,6 +39,7 @@ namespace ChirpNet
             builder.Services.AddScoped<ILikeService, LikeService>();
             builder.Services.AddScoped<IProfileService, ProfileService>();
             builder.Services.AddScoped<IFollowService, FollowService>();
+            builder.Services.AddScoped<ISearchService, SearchService>();
 
 
             var app = builder.Build();
