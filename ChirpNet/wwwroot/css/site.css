@@ -168,3 +168,17 @@ textarea.form-control {
 footer {
     font-size: 0.95rem;
 }
+.table {
+    overflow: hidden;
+}
+
+    .table thead th {
+        color: #495057;
+        font-weight: 700;
+        border-bottom: 1px solid var(--border-soft);
+    }
+
+.badge {
+    border-radius: 0.75rem;
+    padding: 0.45rem 0.7rem;
+}
