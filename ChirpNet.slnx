@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="READ.me" />
+  </Folder>
   <Project Path="ChirpNet.Data/ChirpNet.Data.csproj" Id="54c6b4d3-3bb1-4bb5-bc75-05bcd4d7eb58" />
   <Project Path="ChirpNet.Services/ChirpNet.Services.csproj" Id="93d3259c-a17d-4fac-880b-dace953c9c16">
     <BuildDependency Project="ChirpNet.Data/ChirpNet.Data.csproj" />

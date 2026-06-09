@@ -1,0 +1,132 @@
+# ChirpNet
+
+ChirpNet is a small Twitter-like social network built as a final ASP.NET Core MVC project.
+
+The application allows users to create short posts, view a public feed, comment on posts, like/unlike posts through AJAX, follow/unfollow other users, manage their own posts, search users and posts, and access admin-only functionality.
+
+## Technologies Used
+
+- ASP.NET Core MVC
+- ASP.NET Core Identity
+- Entity Framework Core
+- SQL Server
+- Docker SQL Server container
+- Razor Views
+- Bootstrap
+- JavaScript Fetch API / AJAX
+- NUnit
+- EF Core InMemory provider for tests
+
+## Main Features
+
+### Public Features
+
+- Home page
+- Public feed
+- Post details page
+- Search users and posts
+- User profile pages
+
+### Authenticated User Features
+
+- Register and login
+- Create posts
+- Edit own posts
+- Delete own posts
+- Comment on posts
+- Like and unlike posts with AJAX
+- Follow and unfollow users
+- View My Posts page
+
+### Admin Features
+
+- Seeded Administrator role
+- Seeded admin account
+- Protected admin dashboard
+- Admin post management
+- Soft delete and restore posts
+
+## Seeded Accounts
+
+### Administrator
+
+Email:
+
+```text
+login testing credentials:
+admin@chirpnet.com
+Admin123!
+Project Architecture
+
+The solution is separated into multiple projects:
+
+ChirpNet.Web
+
+Contains the ASP.NET Core MVC application, controllers, views, static files, Identity pages, and application startup configuration.
+
+ChirpNet.Data
+
+Contains the Entity Framework Core DbContext, entity models, EF Core configurations, migrations, and database seeding logic.
+
+ChirpNet.Services
+
+Contains service interfaces, service implementations, and service models. Business logic is placed here instead of inside controllers.
+
+ChirpNet.Tests
+
+Contains NUnit tests for the service layer.
+
+Main Entity Models
+ApplicationUser
+Post
+Comment
+Like
+Follow
+Controllers
+HomeController
+PostsController
+ProfilesController
+SearchController
+LikesApiController
+Admin DashboardController
+Admin PostsController
+ErrorController
+Security Features
+
+The project includes several security-related practices:
+
+ASP.NET Core Identity for authentication
+Role-based authorization for Admin pages
+[Authorize] for protected user actions
+[ValidateAntiForgeryToken] for POST forms
+Razor HTML encoding to help protect against XSS
+EF Core LINQ queries to avoid raw SQL and reduce SQL injection risk
+Ownership checks for editing and deleting posts
+Service-level validation against parameter tampering
+Custom error pages for common HTTP status codes
+AJAX Feature
+
+The like/unlike functionality uses JavaScript fetch() to call a Web API endpoint:
+
+POST /api/likes/toggle/{postId}
+
+The API returns JSON with the updated like state and like count, allowing the page to update without a full reload.
+
+Database
+
+The project uses SQL Server with Entity Framework Core migrations.
+
+If using Docker, start the SQL Server container first:
+
+docker compose up -d
+
+Then apply migrations:
+
+dotnet ef database update --project ChirpNet.Data --startup-project ChirpNet.Web
+
+Run the application:
+
+dotnet run --project ChirpNet.Web
+Tests
+
+The test project uses NUnit.
